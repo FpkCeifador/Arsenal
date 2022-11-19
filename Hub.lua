@@ -445,7 +445,7 @@ if game.PlaceId == 286090429 then
 	    ESP_TeamCheck = false,
 	    Chams = true,
 	    Chams_Color = Color3.fromRGB(0,0,255),
-	    Chams_Transparency = 0.99,
+	    Chams_Transparency = 0.2,
 	    Chams_Glow_Color = Color3.fromRGB(0,255,0)
 	}
 
@@ -507,7 +507,7 @@ if game.PlaceId == 286090429 then
 
 						local glow_box = Instance.new("BoxHandleAdornment", b)
 						glow_box.Name = "Glow"
-						glow_box.AlwaysOnTop = false
+						glow_box.AlwaysOnTop = true
 						glow_box.ZIndex = 3 
 						glow_box.Adornee = b 
 						glow_box.Color3 = settings_tbl.Chams_Glow_Color
