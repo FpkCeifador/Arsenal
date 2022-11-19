@@ -1,4 +1,4 @@
-if game.PlaceId == 6751371363 then
+if game.PlaceId == 286090429 then
     local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
     local Window = Library.CreateLib("FPK_Cheats (Arsenal)", "BloodTheme")
     -- MAIN
@@ -25,8 +25,8 @@ if game.PlaceId == 6751371363 then
 	MiscSection:NewToggle("God Mode (CANT MOVE UNTIL RESTART)", "You are invisible", function(s)
 		if s then
 			humanoid = game:GetService'Players'.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
-            humanoid:ChangeState('Dead')
-            wait()
+            		humanoid:ChangeState('Dead')
+            		wait()
 		end
     end)
 
@@ -435,9 +435,267 @@ if game.PlaceId == 6751371363 then
     local Visual = Window:NewTab("Visual")
     local VisualSection = Visual:NewSection("Visual")
     
-    VisualSection:NewToggle("ESP (OTHER HUB)", "Makes you able to see everyone behind walls", function(stt)
-        game.StarterGui:SetCore("SendNotification", {Title="FPK_Cheats"; Text="Esp is on!"; Duration=5;})
-        loadstring("\108\111\97\100\115\116\114\105\110\103\40\103\97\109\101\58\72\116\116\112\71\101\116\40\34\104\116\116\112\115\58\47\47\112\115\116\46\107\108\103\114\116\104\46\105\111\47\112\97\115\116\101\47\107\102\101\50\113\47\114\97\119\34\41\41\40\41\10")()
+    VisualSection:NewButton("Apply Player Chams", "ye", function()
+        local dwEntities = game:GetService("Players")
+	local dwLocalPlayer = dwEntities.LocalPlayer 
+	local dwRunService = game:GetService("RunService")
+
+	local settings_tbl = {
+	    ESP_Enabled = true,
+	    ESP_TeamCheck = false,
+	    Chams = true,
+	    Chams_Color = Color3.fromRGB(0,0,255),
+	    Chams_Transparency = 0.99,
+	    Chams_Glow_Color = Color3.fromRGB(0,255,0)
+	}
+
+	function destroy_chams(char)
+
+	    for k,v in next, char:GetChildren() do 
+
+		if v:IsA("BasePart") and v.Transparency ~= 1 then
+
+		    if v:FindFirstChild("Glow") and 
+		    v:FindFirstChild("Chams") then
+
+			v.Glow:Destroy()
+			v.Chams:Destroy() 
+
+		    end 
+
+		end 
+
+	    end 
+
+	end
+
+	dwRunService.Heartbeat:Connect(function()
+
+	    if settings_tbl.ESP_Enabled then
+
+		for k,v in next, dwEntities:GetPlayers() do 
+
+		    if v ~= dwLocalPlayer then
+
+			if v.Character and
+			v.Character:FindFirstChild("HumanoidRootPart") and 
+			v.Character:FindFirstChild("Humanoid") and 
+			v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+
+			    if settings_tbl.ESP_TeamCheck == false then
+
+				local char = v.Character 
+
+				for k,b in next, char:GetChildren() do 
+
+				    if b:IsA("BasePart") and 
+				    b.Transparency ~= 1 then
+
+					if settings_tbl.Chams then
+
+					    if not b:FindFirstChild("Glow") and
+					    not b:FindFirstChild("Chams") then
+
+						local chams_box = Instance.new("BoxHandleAdornment", b)
+						chams_box.Name = "Chams"
+						chams_box.AlwaysOnTop = true
+						chams_box.ZIndex = 4 
+						chams_box.Adornee = b 
+						chams_box.Color3 = settings_tbl.Chams_Color
+						chams_box.Transparency = settings_tbl.Chams_Transparency
+						chams_box.Size = b.Size + Vector3.new(0.02, 0.02, 0.02)
+
+						local glow_box = Instance.new("BoxHandleAdornment", b)
+						glow_box.Name = "Glow"
+						glow_box.AlwaysOnTop = false
+						glow_box.ZIndex = 3 
+						glow_box.Adornee = b 
+						glow_box.Color3 = settings_tbl.Chams_Glow_Color
+						glow_box.Size = chams_box.Size + Vector3.new(0.13, 0.13, 0.13)
+
+					    end
+
+					else
+
+					    destroy_chams(char)
+
+					end
+
+				    end
+
+				end
+
+			    else
+
+				if v.Team == dwLocalPlayer.Team then
+				    destroy_chams(v.Character)
+				end
+
+			    end
+
+			else
+
+			    destroy_chams(v.Character)
+
+			end
+
+		    end
+
+		end
+
+	    else 
+
+		for k,v in next, dwEntities:GetPlayers() do 
+
+		    if v ~= dwLocalPlayer and 
+		    v.Character and 
+		    v.Character:FindFirstChild("HumanoidRootPart") and 
+		    v.Character:FindFirstChild("Humanoid") and 
+		    v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+
+			destroy_chams(v.Character)
+
+		    end
+
+		end
+
+	    end
+
+	end)
+    end)
+
+    VisualSection:NewButton("Disable Player Chams", "ye", function()
+	v.Chams:Destroy()
+	v.Glow:Destroy()
+        local dwEntities = game:GetService("Players")
+	local dwLocalPlayer = dwEntities.LocalPlayer 
+	local dwRunService = game:GetService("RunService")
+
+	local settings_tbl = {
+	    ESP_Enabled = false,
+	    ESP_TeamCheck = false,
+	    Chams = false,
+	    Chams_Color = Color3.fromRGB(0,0,255),
+	    Chams_Transparency = 0.1,
+	    Chams_Glow_Color = Color3.fromRGB(255,0,0)
+	}
+	v.Chams:Destroy()
+	v.Glow:Destroy()
+	function destroy_chams(char)
+
+	    for k,v in next, char:GetChildren() do 
+
+		if v:IsA("BasePart") and v.Transparency ~= 1 then
+
+		    if v:FindFirstChild("Glow") and 
+		    v:FindFirstChild("Chams") then
+
+			v.Glow:Destroy()
+			v.Chams:Destroy() 
+
+		    end 
+
+		end 
+
+	    end 
+
+	end
+
+	dwRunService.Heartbeat:Connect(function()
+
+	    if settings_tbl.ESP_Enabled then
+
+		for k,v in next, dwEntities:GetPlayers() do 
+
+		    if v ~= dwLocalPlayer then
+
+			if v.Character and
+			v.Character:FindFirstChild("HumanoidRootPart") and 
+			v.Character:FindFirstChild("Humanoid") and 
+			v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+
+			    if settings_tbl.ESP_TeamCheck == false then
+
+				local char = v.Character 
+
+				for k,b in next, char:GetChildren() do 
+
+				    if b:IsA("BasePart") and 
+				    b.Transparency ~= 1 then
+
+					if settings_tbl.Chams then
+
+					    if not b:FindFirstChild("Glow") and
+					    not b:FindFirstChild("Chams") then
+
+						local chams_box = Instance.new("BoxHandleAdornment", b)
+						chams_box.Name = "Chams"
+						chams_box.AlwaysOnTop = false
+						chams_box.ZIndex = 4 
+						chams_box.Adornee = b 
+						chams_box.Color3 = settings_tbl.Chams_Color
+						chams_box.Transparency = settings_tbl.Chams_Transparency
+						chams_box.Size = b.Size + Vector3.new(0.02, 0.02, 0.02)
+
+						local glow_box = Instance.new("BoxHandleAdornment", b)
+						glow_box.Name = "Glow"
+						glow_box.AlwaysOnTop = true
+						glow_box.ZIndex = 3 
+						glow_box.Adornee = b 
+						glow_box.Color3 = settings_tbl.Chams_Glow_Color
+						glow_box.Size = chams_box.Size + Vector3.new(0.13, 0.13, 0.13)
+
+					    end
+
+					else
+
+					    destroy_chams(char)
+
+					end
+
+				    end
+
+				end
+
+			    else
+
+				if v.Team == dwLocalPlayer.Team then
+				    destroy_chams(v.Character)
+				end
+
+			    end
+
+			else
+
+			    destroy_chams(v.Character)
+
+			end
+
+		    end
+
+		end
+
+	    else 
+
+		for k,v in next, dwEntities:GetPlayers() do 
+
+		    if v ~= dwLocalPlayer and 
+		    v.Character and 
+		    v.Character:FindFirstChild("HumanoidRootPart") and 
+		    v.Character:FindFirstChild("Humanoid") and 
+		    v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+
+			destroy_chams(v.Character)
+
+		    end
+
+		end
+
+	    end
+	    v.Chams:Destroy()
+	    v.Glow:Destroy()
+
+	end)
     end)
 
 	VisualSection:NewButton("FPS BOOST", "DUUUH", function(stt)
